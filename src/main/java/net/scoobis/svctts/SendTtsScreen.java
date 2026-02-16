@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
@@ -31,9 +32,9 @@ public class SendTtsScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (messageField.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER) send();
-        return super.keyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(KeyInput input) {
+        if (messageField.isFocused() && input.getKeycode() == GLFW.GLFW_KEY_ENTER) send();
+        return super.keyPressed(input);
     }
 
     private void send(ButtonWidget buttonWidget) {

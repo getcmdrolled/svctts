@@ -7,9 +7,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 public class SvcTtsClient implements ClientModInitializer {
+
+    public static final KeyBinding.Category TTS_CATEGORY = new KeyBinding.Category(
+            Identifier.of("svctts", "category")
+    );
+
     private static KeyBinding openTtsScreenKeybind;
 
     @Override
@@ -18,7 +24,7 @@ public class SvcTtsClient implements ClientModInitializer {
                 "key.svctts.openscreen",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_B,
-                "key.svctts.category"
+                TTS_CATEGORY
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
