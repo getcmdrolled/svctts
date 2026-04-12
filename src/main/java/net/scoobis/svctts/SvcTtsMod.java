@@ -20,6 +20,8 @@ public class SvcTtsMod implements ModInitializer {
     public static ArrayList<short[]> QUEUE = new ArrayList<>();
     public static TtsProvider TTSPROVIDER;
 
+    private static ModConfig.provider lastProvider;
+
     @Override
 	public void onInitialize() {
         LOGGER.info("SVC TTS initialized!");
@@ -29,15 +31,20 @@ public class SvcTtsMod implements ModInitializer {
 	}
     
     public static void updateFromConfig() {
-        if (CONFIG.provider.equals("freetts")) {
-            TTSPROVIDER = new FreeTtsProvider();
-        } else {
-            TTSPROVIDER = null;
+        switch (CONFIG.providerOption) {
+            case ModConfig.provider.FREETTS -> TTSPROVIDER = new FreeTtsProvider();
+            default -> TTSPROVIDER = null;
         }
+
+        if (TTSPROVIDER != null) {
+            TTSPROVIDER.init();
+        }
+
+        lastProvider = CONFIG.providerOption;
     }
 
     public static void addToQueue(String text) {
-        updateFromConfig();
+        if (!lastProvider.equals(CONFIG.providerOption)) updateFromConfig();
         short[] audio = TTSPROVIDER.synthesizeAudio(text);
         int separator = 960;
         int length = audio.length / separator - 1;
@@ -54,5 +61,26 @@ public class SvcTtsMod implements ModInitializer {
 
             QUEUE.add(newAudio);
         }
+    }
+
+    public static short[] resampleAudio(short[] input, int srcRate) {
+        double ratio = (double) 48000 / srcRate;
+        int newLength = (int) Math.round(input.length * ratio);
+        short[] output = new short[newLength];
+
+        for (int i = 0; i < newLength; i++) {
+            double srcIndex = i / ratio;
+            int indexInt = (int) Math.floor(srcIndex);
+            double fraction = srcIndex - indexInt;
+
+            int srcPos = Math.min(indexInt, input.length);
+
+            short sample1 = input[indexInt];
+            short sample2 = input[srcPos];
+
+            output[i] = (short) ((1 - fraction) * sample1 + fraction * sample2);
+        }
+
+        return output;
     }
 }

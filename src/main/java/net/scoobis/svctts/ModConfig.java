@@ -3,9 +3,15 @@ package net.scoobis.svctts;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 
 @Config(name = SvcTtsMod.MOD_ID)
 public class ModConfig implements ConfigData {
+    public enum provider {
+        FREETTS
+    }
+
     @ConfigEntry.Category("general")
-    String provider = "freetts";
+    @EnumHandler(option = EnumHandler.EnumDisplayOption.DROPDOWN)
+    public provider providerOption = provider.FREETTS;
 }

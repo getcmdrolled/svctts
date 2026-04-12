@@ -1,5 +1,7 @@
 {
   "text.autoconfig.svctts.option.provider": "Provider",
-  "text.autoconfig.svctts.title": "FreeTTS Config",
-  "button.svctts.send": "Send"
+  "text.autoconfig.svctts.title": "SVC TTS Config",
+  "button.svctts.send": "Send",
+  "key.svctts.category": "SVC TTS",
+  "key.svctts.openscreen": "Open TTS screen"
 }
