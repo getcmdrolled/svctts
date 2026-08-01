@@ -6,7 +6,8 @@ import de.maxhenkel.voicechat.api.VoicechatPlugin;
 import de.maxhenkel.voicechat.api.audio.AudioConverter;
 import de.maxhenkel.voicechat.api.audiochannel.ClientAudioChannel;
 import de.maxhenkel.voicechat.api.events.*;
-import net.minecraft.client.MinecraftClient;
+
+import java.util.UUID;
 
 public class SvcTtsVoicechatPlugin implements VoicechatPlugin {
     private ClientAudioChannel channel;
@@ -31,8 +32,7 @@ public class SvcTtsVoicechatPlugin implements VoicechatPlugin {
 
     public void onClientConnect(ClientVoicechatConnectionEvent event) {
         VoicechatClientApi api = event.getVoicechat();
-        assert MinecraftClient.getInstance().player != null;
-        channel = api.createStaticAudioChannel(MinecraftClient.getInstance().player.getUuid());
+        channel = api.createStaticAudioChannel(UUID.randomUUID());
         audioConverter = api.getAudioConverter();
     }
 
