@@ -2,7 +2,7 @@ plugins {
     id 'fabric-loom' version "${loom_version}"
 }
 
-version = mod_version
+version = minecraft_version + "-" + mod_version
 group = maven_group
 
 repositories {
@@ -53,7 +53,7 @@ processResources {
     inputs.property "version", version
 
     filesMatching("fabric.mod.json") {
-        expand "version": mod_version,
+        expand "version": version,
                 "java_version": 21,
                 "minecraft_version": minecraft_version,
                 "loader_version": loader_version,
