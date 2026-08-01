@@ -47,6 +47,8 @@ public class SendTtsScreen extends Screen {
         String text = messageField.getText();
         messageField.setText("");
         MinecraftClient.getInstance().setScreen(null);
-        SvcTtsMod.addToQueue(text);
+        if (!text.isEmpty()) {
+            SvcTtsMod.addToQueue(text);
+        }
     }
 }
