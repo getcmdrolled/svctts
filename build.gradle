@@ -1,8 +1,7 @@
 plugins {
-    id 'fabric-loom' version '${loom_version}'
+    id 'fabric-loom' version "${loom_version}"
 }
 
-archivesBaseName = archives_base_name
 version = mod_version
 group = maven_group
 
