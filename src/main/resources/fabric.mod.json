@@ -10,7 +10,7 @@
   "contact": {
     "sources": "https://github.com/turtletown73/svctts"
   },
-  "license": "MIT",
+  "license": "GPL3",
   "icon": "assets/svctts/icon.png",
   "environment": "client",
   "entrypoints": {
