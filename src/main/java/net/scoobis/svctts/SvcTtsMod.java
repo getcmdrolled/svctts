@@ -45,7 +45,7 @@ public class SvcTtsMod implements ModInitializer {
 
     public static void addToQueue(String text) {
         if (!lastProvider.equals(CONFIG.providerOption)) updateFromConfig();
-        short[] audio = TTSPROVIDER.synthesizeAudio(text);
+        short[] audio = TTSPROVIDER.synthesizeAudio(text, (float) CONFIG.pitch);
         int separator = 960;
         int length = audio.length / separator - 1;
         if (audio.length == 0) return;

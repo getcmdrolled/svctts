@@ -8,7 +8,8 @@ import net.scoobis.svctts.SvcTtsMod;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.util.UUID;
 
 public class FreeTtsProvider implements TtsProvider {
     public FreeTtsProvider() {}
@@ -17,29 +18,30 @@ public class FreeTtsProvider implements TtsProvider {
     public void init() {}
 
     @Override
-    public short[] synthesizeAudio(String text) {
+    public short[] synthesizeAudio(String text, float pitch) {
         System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
         VoiceManager voiceManager = VoiceManager.getInstance();
         Voice voice = voiceManager.getVoice("kevin16");
 
-        SingleFileAudioPlayer audioPlayer = new SingleFileAudioPlayer("temp", AudioFileFormat.Type.WAVE);
+        String fileName = UUID.randomUUID().toString();
 
+        voice.setPitch(pitch);
+        voice.setAudioPlayer(new SingleFileAudioPlayer(fileName, AudioFileFormat.Type.WAVE));
         voice.allocate();
-        voice.setAudioPlayer(audioPlayer);
         voice.speak(text);
-        audioPlayer.close();
+        voice.getAudioPlayer().close();
         voice.deallocate();
 
         byte[] rawBytes = new byte[0];
 
-        File wavFile = new File("temp.wav");
         try {
+            File wavFile = new File(fileName + ".wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(wavFile);
             AudioFormat format = audioInputStream.getFormat();
             SvcTtsMod.LOGGER.info("format: {}", format);
 
             rawBytes = audioInputStream.readAllBytes();
-            wavFile.delete();
+            Files.delete(wavFile.toPath());
         } catch (UnsupportedAudioFileException | IOException e) {
             SvcTtsMod.LOGGER.error(e.getMessage());
         }
