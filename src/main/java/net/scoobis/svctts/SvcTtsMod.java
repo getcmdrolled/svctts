@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SvcTtsMod implements ModInitializer {
-
 	public static final String MOD_ID = "svctts";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static ModConfig CONFIG;
     public static ArrayList<short[]> QUEUE = new ArrayList<>();
     public static TtsProvider TTSPROVIDER;
+
+    public static float lastPitch = 1.0f;
 
     private static ModConfig.provider lastProvider;
 
@@ -43,9 +44,9 @@ public class SvcTtsMod implements ModInitializer {
         lastProvider = CONFIG.providerOption;
     }
 
-    public static void addToQueue(String text) {
+    public static void addToQueue(TtsMessage message) {
         if (!lastProvider.equals(CONFIG.providerOption)) updateFromConfig();
-        short[] audio = TTSPROVIDER.synthesizeAudio(text, (float) CONFIG.pitch);
+        short[] audio = TTSPROVIDER.synthesizeAudio(message.text, message.pitch * 100);
         int separator = 960;
         int length = audio.length / separator - 1;
         if (audio.length == 0) return;

@@ -1,6 +1,7 @@
 package net.scoobis.svctts;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,8 +14,9 @@ public class SendTtsScreen extends Screen {
     }
 
     public Button sendButton;
-    public Button exitButton;
     public EditBox messageField;
+    public AbstractSliderButton pitchSlider;
+    private float pitch = SvcTtsMod.lastPitch;
 
     @Override
     protected void init() {
@@ -22,33 +24,42 @@ public class SendTtsScreen extends Screen {
         messageField.setMaxLength(128);
         setFocused(messageField);
 
-        sendButton = Button.builder(Component.translatable("button.svctts.send"), this::send).bounds(width / 2 - 50, height / 2 + 10, 100, 20).build();
-        exitButton = Button.builder(Component.literal("X"), button -> Minecraft.getInstance().setScreen(null)).bounds(width - 30, 10, 20, 20).build();
+        sendButton = Button.builder(Component.translatable("button.svctts.send"), this::send).bounds(width / 2 + 25, height / 2 + 10, 50, 20).build();
+        pitchSlider = new AbstractSliderButton(width / 2 - 75, height / 2 + 10, 100, 20, Component.literal(String.valueOf(SvcTtsMod.lastPitch)), SvcTtsMod.lastPitch / 4) {
+            @Override
+            protected void updateMessage() {
+                this.setMessage(Component.literal(String.valueOf(this.value * 4)));
+            }
+
+            @Override
+            protected void applyValue() {
+                this.value = (double) Math.round(this.value * 8) / 8;
+                pitch = (float) this.value * 4;
+            }
+        };
 
         addRenderableWidget(messageField);
         addRenderableWidget(sendButton);
-        addRenderableWidget(exitButton);
+        addRenderableWidget(pitchSlider);
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (messageField.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER) send();
+        if (keyCode == GLFW.GLFW_KEY_ENTER) send();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     private void send(Button buttonWidget) {
-        String text = messageField.getValue();
-        messageField.setValue("");
-        Minecraft.getInstance().setScreen(null);
-        SvcTtsMod.addToQueue(text);
+        send();
     }
 
     private void send() {
         String text = messageField.getValue();
         messageField.setValue("");
         Minecraft.getInstance().setScreen(null);
+        SvcTtsMod.lastPitch = pitch;
         if (!text.isEmpty()) {
-            SvcTtsMod.addToQueue(text);
+            SvcTtsMod.addToQueue(new TtsMessage(text, pitch));
         }
     }
 }

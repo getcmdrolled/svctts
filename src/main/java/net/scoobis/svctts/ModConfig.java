@@ -14,8 +14,4 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Category("general")
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     public provider providerOption = provider.FREETTS;
-
-    @ConfigEntry.Category("general")
-    @ConfigEntry.BoundedDiscrete(min = 0, max = 300)
-    public int pitch = 100;
 }
