@@ -36,9 +36,8 @@ public class SendTtsScreen extends Screen {
         sendButton = Button.builder(Component.translatable("button.svctts.send"), this::send).bounds(width / 2 + 30, height - 50, 50, 20).build();
         pitchSlider = new TtsPitchSliderButton(width / 2 - 80, height - 50, 100, 20, Component.literal(String.valueOf(SvcTtsMod.CONFIG.pitch)), (double) SvcTtsMod.CONFIG.pitch / 500);
         historyList = new HistoryList(width - 12, height - 104, 12, 20);
-        historyList.setLeftPos(12);
+        historyList.setX(12);
         historyList.setRenderBackground(false);
-        historyList.setRenderTopAndBottom(false);
 
         addRenderableWidget(messageField);
         addRenderableWidget(sendButton);
@@ -107,7 +106,7 @@ public class SendTtsScreen extends Screen {
 
     public class HistoryList extends ContainerObjectSelectionList<HistoryListEntry> {
         public HistoryList(int width, int height, int top, int size) {
-            super(Minecraft.getInstance(), width, height, top, top + height, size);
+            super(Minecraft.getInstance(), width, height, top, size);
 
             for (int i = SvcTtsMod.HISTORY.size(); i > 0; i--) {
                 this.addEntry(new HistoryListEntry(i - 1));
@@ -131,19 +130,19 @@ public class SendTtsScreen extends Screen {
 
         @Override
         protected int getRowTop(int i) {
-            return this.y0 - (int)this.getScrollAmount() + i * this.itemHeight;
+            return this.getY() - (int)this.getScrollAmount() + i * this.itemHeight;
         }
 
         @Override
         public int getMaxScroll() {
-            return Math.max(0, this.getMaxPosition() - (this.y1 - this.y0));
+            return Math.max(0, this.getMaxPosition() - this.height);
         }
 
         @Override
-        public void render(GuiGraphics guiGraphics, int i, int j, float f) {
+        public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
             guiGraphics.fill(9, 9, SendTtsScreen.this.width - 9, SendTtsScreen.this.height - 89, this.isFocused() ? -1 : -6250336);
             guiGraphics.fill(10, 10, SendTtsScreen.this.width - 10, SendTtsScreen.this.height - 90, -16777216);
-            super.render(guiGraphics, i, j, f);
+            super.renderWidget(guiGraphics, i, j, f);
         }
     }
 
