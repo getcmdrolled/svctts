@@ -2,6 +2,10 @@ plugins {
     id 'fabric-loom' version "${loom_version}"
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/svctts.accessWidener")
+}
+
 version = minecraft_version + "-" + mod_version
 group = maven_group
 

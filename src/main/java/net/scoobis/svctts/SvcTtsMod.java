@@ -17,9 +17,8 @@ public class SvcTtsMod implements ModInitializer {
 
     public static ModConfig CONFIG;
     public static ArrayList<short[]> QUEUE = new ArrayList<>();
+    public static ArrayList<TtsMessage> HISTORY = new ArrayList<>();
     public static TtsProvider TTSPROVIDER;
-
-    public static float lastPitch = 1.0f;
 
     private static ModConfig.provider lastProvider;
 
@@ -45,6 +44,11 @@ public class SvcTtsMod implements ModInitializer {
     }
 
     public static void addToQueue(TtsMessage message) {
+        HISTORY.add(message);
+        if (HISTORY.size() > 25) {
+            HISTORY.removeFirst();
+        }
+
         if (!lastProvider.equals(CONFIG.providerOption)) updateFromConfig();
         short[] audio = TTSPROVIDER.synthesizeAudio(message.text, message.pitch * 100);
         int separator = 960;

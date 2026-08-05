@@ -27,6 +27,7 @@
       "net.scoobis.svctts.ModMenuIntegration"
     ]
   },
+  "accessWidener": "svctts.accessWidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": ">=${fabric_version}",
