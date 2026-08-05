@@ -79,7 +79,7 @@ public class SendTtsScreen extends Screen {
     private void send(boolean historical) {
         String text = messageField.getValue();
         messageField.setValue("");
-        Minecraft.getInstance().setScreen(null);
+        Minecraft.getInstance().gui.setScreen(null);
         if (!text.isEmpty()) {
             SvcTtsMod.addToQueue(new TtsMessage(text, pitch), historical);
         }

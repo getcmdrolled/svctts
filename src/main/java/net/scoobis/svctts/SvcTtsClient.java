@@ -24,7 +24,7 @@ public class SvcTtsClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(_ -> {
             while (openTtsScreenKeybind.consumeClick()) {
-                Minecraft.getInstance().setScreen(new SendTtsScreen(Component.literal("yo")));
+                Minecraft.getInstance().gui.setScreen(new SendTtsScreen(Component.literal("yo")));
             }
         });
     }
