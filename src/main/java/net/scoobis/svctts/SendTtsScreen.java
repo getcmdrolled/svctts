@@ -1,7 +1,7 @@
 package net.scoobis.svctts;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -10,6 +10,7 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
@@ -126,13 +127,13 @@ public class SendTtsScreen extends Screen {
         }
 
         @Override
-        protected void renderListBackground(GuiGraphics guiGraphics) {}
+        protected void extractListBackground(@NonNull GuiGraphicsExtractor guiGraphics) {}
 
         @Override
-        public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
+        public void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int i, int j, float f) {
             guiGraphics.fill(9, 9, SendTtsScreen.this.width - 9, SendTtsScreen.this.height - 89, this.isFocused() ? -1 : -6250336);
             guiGraphics.fill(10, 10, SendTtsScreen.this.width - 10, SendTtsScreen.this.height - 90, -16777216);
-            super.renderWidget(guiGraphics, i, j, f);
+            super.extractWidgetRenderState(guiGraphics, i, j, f);
         }
     }
 
@@ -159,10 +160,10 @@ public class SendTtsScreen extends Screen {
         }
 
         @Override
-        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean bl, float delta) {
+        public void extractContent(@NonNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean bl, float delta) {
             for (Button child : this.children) {
                 child.setPosition(child.getX(), this.getY());
-                child.render(guiGraphics, mouseX, mouseY, delta);
+                child.extractRenderState(guiGraphics, mouseX, mouseY, delta);
             }
         }
     }

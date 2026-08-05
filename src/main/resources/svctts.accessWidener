@@ -1,4 +1,4 @@
-accessWidener v2 named
+accessWidener v2 official
 
 accessible method net/minecraft/client/gui/components/AbstractSliderButton setValue (D)V
 extendable method net/minecraft/client/gui/components/AbstractSliderButton setValue (D)V # needed for cloth config to work? idk why accessible makes it final
