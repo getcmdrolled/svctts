@@ -37,7 +37,6 @@ public class SendTtsScreen extends Screen {
         pitchSlider = new TtsPitchSliderButton(width / 2 - 80, height - 50, 100, 20, Component.literal(String.valueOf(SvcTtsMod.CONFIG.pitch)), (double) SvcTtsMod.CONFIG.pitch / 500);
         historyList = new HistoryList(width - 12, height - 104, 12, 20);
         historyList.setX(12);
-        historyList.setRenderBackground(false);
 
         addRenderableWidget(messageField);
         addRenderableWidget(sendButton);
@@ -137,6 +136,9 @@ public class SendTtsScreen extends Screen {
         public int getMaxScroll() {
             return Math.max(0, this.getMaxPosition() - this.height);
         }
+
+        @Override
+        protected void renderListBackground(GuiGraphics guiGraphics) {}
 
         @Override
         public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
