@@ -4,7 +4,7 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.scoobis.svctts.SvcTtsMod;
 
@@ -57,7 +57,7 @@ public class LibFliteProvider implements TtsProvider {
             SvcTtsMod.LOGGER.error("Unable to load library for selected libflite voice! Please change config. {}", e.getMessage());
 
             // replace audio with error sfx
-            Optional<Resource> resource = Minecraft.getInstance().getResourceManager().getResource(ResourceLocation.fromNamespaceAndPath(SvcTtsMod.MOD_ID, "sounds/flite_library_error.wav"));
+            Optional<Resource> resource = Minecraft.getInstance().getResourceManager().getResource(Identifier.fromNamespaceAndPath(SvcTtsMod.MOD_ID, "sounds/flite_library_error.wav"));
             if (resource.isPresent()) {
                 try (InputStream inputStream = resource.get().open()) {
                     rawBytes = inputStream.readAllBytes();
