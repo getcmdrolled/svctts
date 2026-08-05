@@ -2,13 +2,11 @@ package net.scoobis.svctts;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractSliderButton;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ContainerObjectSelectionList;
-import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
@@ -45,9 +43,9 @@ public class SendTtsScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ENTER) send();
-        return super.keyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(KeyEvent input) {
+        if (input.input() == GLFW.GLFW_KEY_ENTER) send();
+        return super.keyPressed(input);
     }
 
     public void update(Button buttonWidget) {
@@ -113,7 +111,7 @@ public class SendTtsScreen extends Screen {
         }
 
         @Override
-        protected int getScrollbarPosition() {
+        protected int scrollBarX() {
             return SendTtsScreen.this.width - 9;
         }
 
@@ -125,16 +123,6 @@ public class SendTtsScreen extends Screen {
         @Override
         public int getRowWidth() {
             return SendTtsScreen.this.width - 20;
-        }
-
-        @Override
-        protected int getRowTop(int i) {
-            return this.getY() - (int)this.getScrollAmount() + i * this.itemHeight;
-        }
-
-        @Override
-        public int getMaxScroll() {
-            return Math.max(0, this.getMaxPosition() - this.height);
         }
 
         @Override
@@ -166,16 +154,16 @@ public class SendTtsScreen extends Screen {
         }
 
         @Override
-        public void render(GuiGraphics guiGraphics, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float delta) {
-            for (Button child : this.children) {
-                child.setPosition(child.getX(), top);
-                child.render(guiGraphics, mouseX, mouseY, delta);
-            }
+        public @NotNull List<? extends GuiEventListener> children() {
+            return children;
         }
 
         @Override
-        public @NotNull List<? extends GuiEventListener> children() {
-            return children;
+        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean bl, float delta) {
+            for (Button child : this.children) {
+                child.setPosition(child.getX(), this.getY());
+                child.render(guiGraphics, mouseX, mouseY, delta);
+            }
         }
     }
 }
