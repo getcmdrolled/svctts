@@ -43,10 +43,12 @@ public class SvcTtsMod implements ModInitializer {
         lastProvider = CONFIG.providerOption;
     }
 
-    public static void addToQueue(TtsMessage message) {
-        HISTORY.add(message);
-        if (HISTORY.size() > 25) {
-            HISTORY.removeFirst();
+    public static void addToQueue(TtsMessage message, boolean historical) {
+        if (historical) {
+            HISTORY.add(message);
+            if (HISTORY.size() > 25) {
+                HISTORY.removeFirst();
+            }
         }
 
         if (!lastProvider.equals(CONFIG.providerOption)) updateFromConfig();

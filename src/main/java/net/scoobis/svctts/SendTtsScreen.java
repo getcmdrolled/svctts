@@ -57,6 +57,7 @@ public class SendTtsScreen extends Screen {
             if (historyListEntry.children.getFirst() == buttonWidget) {
                 updateMessage(historyListEntry.children.get(1));
                 updatePitch(historyListEntry.children.get(2));
+                send(false);
                 return;
             }
         }
@@ -74,12 +75,21 @@ public class SendTtsScreen extends Screen {
         send();
     }
 
+    private void send(boolean historical) {
+        String text = messageField.getValue();
+        messageField.setValue("");
+        Minecraft.getInstance().setScreen(null);
+        if (!text.isEmpty()) {
+            SvcTtsMod.addToQueue(new TtsMessage(text, pitch), historical);
+        }
+    }
+
     private void send() {
         String text = messageField.getValue();
         messageField.setValue("");
         Minecraft.getInstance().setScreen(null);
         if (!text.isEmpty()) {
-            SvcTtsMod.addToQueue(new TtsMessage(text, pitch));
+            SvcTtsMod.addToQueue(new TtsMessage(text, pitch), true);
         }
     }
 
