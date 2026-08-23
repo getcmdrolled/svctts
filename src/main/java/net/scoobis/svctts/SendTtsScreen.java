@@ -75,21 +75,16 @@ public class SendTtsScreen extends Screen {
         send();
     }
 
+    private void send() {
+        send(true);
+    }
+
     private void send(boolean historical) {
         String text = messageField.getValue();
         messageField.setValue("");
         Minecraft.getInstance().setScreen(null);
         if (!text.isEmpty()) {
             SvcTtsMod.addToQueue(new TtsMessage(text, pitch), historical);
-        }
-    }
-
-    private void send() {
-        String text = messageField.getValue();
-        messageField.setValue("");
-        Minecraft.getInstance().setScreen(null);
-        if (!text.isEmpty()) {
-            SvcTtsMod.addToQueue(new TtsMessage(text, pitch), true);
         }
     }
 
