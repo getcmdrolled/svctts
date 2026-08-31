@@ -37,8 +37,6 @@ public class FreeTtsProvider implements TtsProvider {
         try {
             File wavFile = new File(fileName + ".wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(wavFile);
-            AudioFormat format = audioInputStream.getFormat();
-            SvcTtsMod.LOGGER.info("format: {}", format);
 
             rawBytes = audioInputStream.readAllBytes();
             Files.delete(wavFile.toPath());

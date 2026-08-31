@@ -3,6 +3,7 @@ package net.scoobis.svctts;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+import net.scoobis.svctts.providers.LibFliteProvider;
 import net.scoobis.svctts.providers.TtsProvider;
 import net.scoobis.svctts.providers.FreeTtsProvider;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ public class SvcTtsMod implements ModInitializer {
     public static ArrayList<TtsMessage> HISTORY = new ArrayList<>();
     public static TtsProvider TTSPROVIDER;
 
-    private static ModConfig.provider lastProvider;
+    private static ModConfig.Provider lastProvider;
 
     @Override
 	public void onInitialize() {
@@ -31,8 +32,9 @@ public class SvcTtsMod implements ModInitializer {
 	}
     
     public static void updateFromConfig() {
-        switch (CONFIG.providerOption) {
-            case ModConfig.provider.FREETTS -> TTSPROVIDER = new FreeTtsProvider();
+        switch (CONFIG.provider_option) {
+            case ModConfig.Provider.FREETTS -> TTSPROVIDER = new FreeTtsProvider();
+            case ModConfig.Provider.LIBFLITE -> TTSPROVIDER = new LibFliteProvider();
             default -> TTSPROVIDER = null;
         }
 
@@ -40,7 +42,7 @@ public class SvcTtsMod implements ModInitializer {
             TTSPROVIDER.init();
         }
 
-        lastProvider = CONFIG.providerOption;
+        lastProvider = CONFIG.provider_option;
     }
 
     public static void addToQueue(TtsMessage message, boolean historical) {
@@ -51,7 +53,7 @@ public class SvcTtsMod implements ModInitializer {
             }
         }
 
-        if (!lastProvider.equals(CONFIG.providerOption)) updateFromConfig();
+        if (!lastProvider.equals(CONFIG.provider_option)) updateFromConfig();
         short[] audio = TTSPROVIDER.synthesizeAudio(message.text, message.pitch * 100);
         int separator = 960;
         int length = audio.length / separator - 1;

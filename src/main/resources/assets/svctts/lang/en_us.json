@@ -1,7 +1,10 @@
 {
-  "text.autoconfig.svctts.option.provider": "Provider",
   "text.autoconfig.svctts.title": "SVC TTS Config",
-  "text.autoconfig.svctts.option.providerOption": "TTS Provider",
+  "text.autoconfig.svctts.category.general": "General",
+  "text.autoconfig.svctts.category.specific": "Provider Specific",
+  "text.autoconfig.svctts.option.provider": "Provider",
+  "text.autoconfig.svctts.option.provider_option": "TTS Provider",
+  "text.autoconfig.svctts.option.libflite_voice": "LibFlite Voice",
   "text.autoconfig.svctts.option.pitch": "Default Pitch",
   "button.svctts.send": "Send",
   "key.svctts.category": "SVC TTS",
