@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 
 public class SvcTtsClient implements ClientModInitializer {
     private static KeyMapping openTtsScreenKeybind;
@@ -16,8 +15,7 @@ public class SvcTtsClient implements ClientModInitializer {
     public void onInitializeClient() {
         openTtsScreenKeybind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.svctts.openscreen",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_B,
+                InputConstants.KEY_B,
                 "key.svctts.category"
         ));
 
